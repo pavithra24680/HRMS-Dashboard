@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Page Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: "lato";
+        }
+
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: ">";
+            color: #6c757d;
+        }
+
+        .card {
+            border: 1px dashed #ccc;
+        }
+
+        .dash {
+            margin-top: 20px;
+            margin-right: 15px;
+            padding-bottom: 20px;
+        }
+
+        .circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #810c7b;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            float: right;
+        }
+
+        .input-group-text {
+            border-right: none;
+        }
+
+        .form-control,
+        .form-select {
+            background-color: #e6e8e9 !important;
+        }
+
+        .sidebar {
+            height: auto;
+            padding-top: 20px;
+            background-color: #f8f9fa;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-right: 1px solid #ddd;
+            position:absolute;
+            left: 0;
+            width: 220px;
+            z-index: 1000;
+            transition: left 0.3s;
+        }
+
+        .content {
+            margin-left: 220px;
+            padding-left: 15px;
+            transition: margin-left 0.3s;
+        }
+
+        .toggle-icon {
+            position: fixed;
+            top: 50%;
+            left: -5px;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 50px;
+            background-color: blue;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 80px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 1000;
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 180px;
+                left: -180px;
+                height: 100vh;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .content {
+                margin-left: 0;
+                padding-left: 0;
+                width: 100%;
+                height: 100vh;
+            }
+
+            .toggle-icon {
+                display: flex;
+                background-color: #007bff;
+            }
+
+            .toggle-icon:hover {
+                background-color: #0056b3;
+            }
+
+            .toggle-icon::before {
+                content: '❯';
+                font-size: 18px;
+            }
+
+            .sidebar.show .toggle-icon::before {
+                content: '✕';
+            }
+        }
+
+        .table th select:not([aria-label="Filter Status"]) {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background-image: none;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .filter-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            pointer-events: none;
+        }
+
+        .select-wrapper select {
+            padding-left: 30px;
+        }
+
+        /* Added styling for the table to make it responsive */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table th, .table td {
+            text-align: center;
+            border: none;
+        }
+        .table td {
+            background-color: white;
+        }
+        @media (max-width: 576px) {
+            .circle {
+                width: 30px;
+                height: 30px;
+                font-size: 18px;
+            }
+
+            .btn-outline-secondary,
+            .btn-dark {
+                padding: 0.25rem 0.5rem;
+            }
+
+            .table th {
+                font-size: 12px;
+                padding: 5px;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+                word-wrap: break-word;
+            }
+
+            .table th select {
+                width: auto;
+                min-width: 100px;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <form action="/attendance"></form>
+
+    <div class="container-fluid p-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <div class="header">
+                    <h2>Attendance Page</h2>
+                    <div class="d-flex justify-content-between align-items-center search-bar">
+                        <p class="m-0"><a href="/dashboard" style="color: black; text-decoration: none;">> HR</a> > Attendance</p>
+                        <div class="d-flex align-items-center">
+                            <div class="input-group" style="width: 100%;">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="height: 100%; width: 100%;"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Search or type a command (Ctrl + G)">
+                            </div>
+
+                            <button class="btn btn-light me-2">
+                                <i class="fa-solid fa-bell"></i>
+                            </button>
+                            <div class="dropdown me-2">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="helpDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Help
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="helpDropdown">
+                                    <li><a class="dropdown-item" href="#">Help Center</a></li>
+                                    <li><a class="dropdown-item" href="#">Contact Support</a></li>
+                                </ul>
+                            </div>
+                            <div class="dash">
+                                <div class="circle">
+                                    {{ first_two_letters }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <hr>
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <h3 class="me-3">
+                    <span class="hamburger-icon">
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    Attendance
+                </h3>
+                <div class="d-flex align-items-center">
+                    <div class="me-2">
+                        <select class="form-select" aria-label="Mark Attendance" disabled>
+                            <option selected disabled>Mark Attendance</option>
+                        </select>
+
+                    </div>
+                    <div class="me-2">
+                        <select class="form-select" aria-label="List View">
+                            <option selected disabled>List View</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-outline-secondary" style="width: 50px; margin-right: 10px;" onclick="location.reload()">
+                        <i class="fa-solid fa-arrows-rotate" style="font-size:20px;"></i>
+                    </button>
+                    <button class="btn btn-outline-secondary" style="margin-right: 10px;">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                    <button class="btn btn-dark" onclick="location.href='{{ url_for('add_attendance') }}'">+ Add Attendance</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 sidebar" id="sidebar">
+                    <div class="toggle-icon" onclick="toggleSidebar()"></div>
+                    <h6>Filter By</h6>
+                    <div class="additional-content">
+                        <div class="mb-2">
+                            <select class="form-select">
+                                <option value="" selected>Assigned To</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <select class="form-select">
+                                <option value="" selected>Created By</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label>Edit Filters</label>
+                            <select class="form-select">
+                                <option value="" selected>Tags</option>
+                            </select>
+                            <p>Show Tags</p>
+                        </div>
+                        <div class="mb-2">
+                            <label>Save Filter</label>
+                            <input type="text" class="form-control" placeholder="Filter Name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-10 content">
+                    <div class="card p-4">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <select class="form-select" aria-label="Filter ID" disabled>
+                                                <option selected>ID</option>
+                                            </select>
+                                        </th>
+                                        <th>
+                                            <select class="form-select" aria-label="Filter Employee Name" disabled>
+                                                <option selected>Employee Name</option>
+                                            </select>
+                                        </th>
+                                        <th>
+                                            <select class="form-select" id="statusFilter" aria-label="Filter Status" onchange="filterTable()">
+                                                <option selected disabled>Status</option>
+                                                <option value="present">Present</option>
+                                                <option value="absent">Absent</option>
+                                            </select>
+                                            
+                                        </th>
+                                        <th>
+                                            <div class="select-wrapper">
+                                                <i class="fa-solid fa-filter filter-icon" style="font-size: 16px;"></i>
+                                                <select class="form-select" aria-label="Filter Tag">
+                                                    <option selected disabled>Filter</option>
+                                                    <option value="">Employee name</option>
+                                                    <option value="">Status</option>
+                                                </select>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="select-wrapper">
+                                                <i class="fa-solid fa-calendar filter-icon" style="font-size: 15px;"></i>
+                                                <select class="form-select" aria-label="Filter Last Updated On" disabled>
+                                                    <option selected>Last Updated On</option>
+                                                </select>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for record in attendance_records %}
+                                        <tr data-status="{{ record[2] | lower }}">
+                                            <td>{{ record[0] }}</td>
+                                            <td>{{ record[1] }}</td>
+                                            <td>{{ record[2] }}</td>
+                                            <td>{{ record[3] }}</td>
+                                            <td></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                    
+                            </table>
+                        </div>
+                        <br>
+                        <nav aria-label="Page navigation">
+                            <br><br><br><br><br><br><br>
+                            <ul class="pagination justify-content-start">
+                                <li class="page-item"><a class="page-link" href="#">10</a></li>
+                                <li class="page-item"><a class="page-link" href="#">100</a></li>
+                                <li class="page-item"><a class="page-link" href="#">500</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2500</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
+        }
+    </script>
+    <script>
+        function filterTable() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const tableRows = document.querySelectorAll('tbody tr');
+    
+            tableRows.forEach(row => {
+                const rowStatus = row.getAttribute('data-status');
+                if (statusFilter === "Status" || statusFilter === rowStatus) {
+                    row.style.display = ""; 
+                } else {
+                    row.style.display = "none"; 
+                }
+            });
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            margin: 0;
+            font-family: "lato";
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #f8f9fa;
+            position: fixed;
+            top: 0px;
+            height: 100vh;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            border-right: 1px solid #e0e0e0;
+        }
+        .sidebar.open {
+            left: 0; /* Sidebar visible */
+        }
+        .sidebar a:hover, .sidebar h4:hover {
+            background-color: #e9ecef;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .sidebar h4 {
+            font-size: 16px;
+            cursor: pointer;
+            
+        }
+
+        .sidebar .collapse-button:after {
+            content: " ▼";
+            font-size: 10px;
+            float: down;
+            
+        }
+
+        .sidebar .collapse-button.collapsed:after {
+            content: "▼";
+        }
+
+        .content {
+            margin-left: 200px;
+            padding: 15px;
+            transition: margin-left 0.3s;
+            color: #000;
+        }
+
+        .content.collapsed {
+            margin-left: 80px;
+        }
+        .collapse-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            max-height: 1000px;
+            
+        }
+
+        .collapse-content.collapsed {
+            max-height: 0;
+            transition: max-height 0.3s ease-in;
+            
+        }
+
+        .collapse-button {
+            cursor: pointer;
+        }
+
+
+        .sidebar a, .sidebar h4 {
+            color: #000;
+            text-decoration: none;
+            display: block;
+            padding: 10px 30px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar a:hover, .sidebar h4:hover {
+            background-color: #e9ecef;
+            color: #000;
+        }
+
+        .content {
+            margin-left: 210px;
+            color: #000;
+            position: relative; /* Ensure content doesn't move */
+            z-index: 1; /* Content stays below sidebar */
+        }
+        .content.collapsed {
+            margin-left: 80px;
+        }
+        
+        .collapse-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            max-height: 1000px;
+        }
+
+        .collapse-content.collapsed {
+            max-height: 0;
+            transition: max-height 0.3s ease-in;
+        }
+
+        .collapse-button {
+            cursor: pointer;
+        }
+        .hamburger {
+            display:inline-block;
+            position: relative;
+            top: 10px;
+            left: 15px;
+            z-index: 1100; /* Above everything */
+            cursor: pointer;
+        }
+
+        .hamburger i {
+            font-size: 24px;
+            color: #000;
+        }
+        a{
+            text-decoration: none;
+            color: #0e0101;
+        }
+        li{
+            list-style: none;
+        }
+
+        @media screen and (max-width: 992px) {
+        .hamburger {
+            display: block;
+        }
+
+        .sidebar {
+            width: 250px;
+            top:-500px;
+         /* Hidden sidebar */
+        }
+
+        .sidebar.open {
+            top: 0;
+            height:100vh;
+        }
+        .content{
+            margin-left: 0;
+            margin-top: -30px;
+        }
+        }
+        @media screen and (max-width: 768px) {
+        .sidebar {
+            width: 100%;
+            height:0%;
+        }
+        .sidebar.open {
+            top: 0;
+            height:100%;
+        }
+        .sidebar a, .sidebar h4 {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+        }
+
+        @media screen and (max-width: 576px) {
+        .sidebar {
+            width: 100%;
+            height: 0%;
+        }
+        .sidebar.open {
+            top: 0;
+            height:100%;
+    
+        }
+        .sidebar a, .sidebar h4 {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+        }
+        .dash{
+            margin-top: 20px;
+            margin-right: 15px;
+        }
+        .circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #810c7b;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dash">
+
+        <div class="circle">
+            {{ first_two_letters }}
+        </div>
+</div> 
+    
+    <div class="hamburger" onclick="toggleSidebar()"><i class="fa fa-bars">&nbsp;&nbsp;H R</i>
+    </div>
+    <br>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div id="publicSection">
+            <div id="publicLinks" class="collapse-content"></div>
+            <br>
+            <br>
+            <br>
+            <h4 class="collapse-button" onclick="toggleSection('publicLinks', 'publicSection')">&nbsp;&nbsp;&nbsp;&nbsp;Public</h4>
+            <div id="hrSection">
+                <h4 class="collapse-button" onclick="toggleSection('hrLinks', 'hrSection')">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-box" style="color: gray;"></i>&nbsp;&nbsp;HR</h4>
+                <div id="hrLinks" class="collapse-content">
+                    <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-book" style="color: gray;"></i>&nbsp;&nbsp;Projects</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user-group" style="color: gray;"></i>&nbsp;&nbsp;Users</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-globe" style="color: gray;"></i>&nbsp;&nbsp;Website</a>
+                </div>
+            </div>
+            <div id="payrollSection">
+                <h4 class="collapse-button" onclick="toggleSection('payrollLinks', 'payrollSection')">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-money-check" style="color: gray;"></i>&nbsp;&nbsp;Payroll</h4>
+                <div id="payrollLinks" class="collapse-content">
+                    <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-screwdriver-wrench" style="color: gray;"></i>&nbsp;&nbsp;Tools</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-pause" style="color: gray;"></i>&nbsp;&nbsp;Integrations</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-building" style="color: gray;"></i>&nbsp;&nbsp;Build</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- Main Content -->
+    <div class="content">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Hiring vs Attrition Count</h5>
+                <p class="card-text">Last synced 9 minutes ago</p>
+                <div class="chart-container" style="position: relative; height:30vh; width:100%">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+    
+    <h4 style="margin-top: 20px;">Your shortcuts</h4>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <li style="margin-top: 10px;"><a href="#">Employee &nbsp;&nearr;&nbsp;&nbsp;<mark style="background-color: #F5F5F5; border-radius: 10px;">0&nbsp; Active</mark></a></li>
+                    <li style="margin-top: 10px;"><a href="#">Employee Cycle Dashboard &#8599;</a></li>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <li style="margin-top: 10px;"><a href="#">Leave Application &#8599;</a></li>
+                    <li style="margin-top: 10px;"><a href="#">Attendance Dashboard &#8599;</a></li>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <li style="margin-top: 10px;"><a href="#">HR Dashboard &#8599;</a></li>
+                    <li style="margin-top: 10px;"><a href="#">Expense claims Dashboard &#8599;</a></li>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <li style="margin-top: 10px;"><a href="#">Recruitment Dashboard &#8599;</a></li>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 30px;">
+            <h4>Report & Masters</h4>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-3">
+                        <h5>Setup</h5>
+                        <li style="margin-top: 10px;"><a href="#">Company &#8599;</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Branch &#8599;</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Department &#8599;</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Designation &#8599;</a></li><br>
+                    </div>
+                    <br>
+                    <div class="col-md-6 col-lg-3">
+                        <h5>Employee</h5>
+                        <li style="margin-top: 10px;"><a href="#">Employee &#8599;</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Employee Group &#8599;</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Employee Grade &#8599;</a></li><br>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <h5>Leaves</h5>
+                        <li style="margin-top: 10px;"><a href="{{ url_for('leave')}}">Leave Application &#8599;</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Compensatory Leave Request &#8599;</a></li><br>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <h5>Settings</h5>
+                        <li style="margin-top: 10px;"><a href="#">HR Settings &#8599;</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Daily Work Summary Group &#8599;</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Team Updates &#8599;</a></li><br>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                    <h5>Attendance</h5>
+                    <li style="margin-top: 10px;"><a href="{{ url_for('attendance')}}">Attendance &#8599;</a></li>
+                    <li style="margin-top: 10px;"><a href="#">Attendance Request &#8599;</a></li>
+                    <li style="margin-top: 10px;"><a href="#">Employee Check-in &#8599;</a></li><br>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <h5>Expense Claim</h5>
+                    <li style="margin-top: 10px;"><a href="#">Expense Claim &#8599;</a></li>
+                    <li style="margin-top: 10px;"><a href="#">Employee Advance &#8599;</a></li>
+                    <li style="margin-top: 10px;"><a href="#">Travel Request &#8599;</a></li><br>
+                </div>
+            
+                <div class="col-md-6 col-lg-3">
+                    <h5>Other Reports</h5>
+                    <li style="margin-top: 10px;"><a href="#">Employee Information</a></li>
+                    <li style="margin-top: 10px;"><a href="#">Employee Birthday</a></li>
+                    <li style="margin-top: 10px;"><a href="#">Employees Working on a Holiday </a></li>
+                    <li style="margin-top: 10px;"><a href="#">Daily Work Summary Replies </a></li><br>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <h5>Key Reports</h5>
+                        <li style="margin-top: 10px;"><a href="#">Monthly Attendance Sheet </a></li>
+                        <li style="margin-top: 10px;"><a href="#">Recruitment Analytics </a></li>
+                        <li style="margin-top: 10px;"><a href="#">Employee Analytics</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Employee Leave Balance</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Employee Leave Balance Summary</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Employee Advance Summary</a></li>
+                        <li style="margin-top: 10px;"><a href="#">Employee Exits &#8599;</a></li>
+                </div>
+                </div>
+            </div>
+        </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Aug 2024'],
+        datasets: [{
+            label: 'Hiring Count',
+            data: [6],
+            backgroundColor: 'green',
+        }, {
+            label: 'Attrition Count',
+            data: [4],
+            backgroundColor: 'pink', 
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false, // This allows for responsive height as well
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+        
+        function toggleSection(sectionId, buttonId) {
+            var section = document.getElementById(sectionId);
+            var button = document.getElementById(buttonId);
+            if (section.classList.contains('collapsed')) {
+                section.classList.remove('collapsed');
+                button.classList.remove('collapsed');
+            } else {
+                section.classList.add('collapsed');
+                button.classList.add('collapsed');
+            }
+        }
+
+        function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    var content = document.querySelector('.content');
+    sidebar.classList.toggle('open');
+}
+
+    </script>
+</body>
+</html>

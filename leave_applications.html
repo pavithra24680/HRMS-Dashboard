@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Leave Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "lato";
+        }
+
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
+            font-family: "lato";
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: auto;
+        }
+
+        h1 {
+            text-align: left;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .attendance-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .col {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="text"]:read-only,
+        input[type="date"] {
+            background-color: #f9f9f9;
+        }
+
+        .checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .save-button {
+            padding: 6px 20px;
+            background-color: hsl(140, 11%, 5%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: auto;
+        }
+
+        .save-button:hover {
+            background-color: #0a0e0a;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 50%;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .icon {
+            color: #555;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .icon:hover {
+            color: #333;
+        }
+        #todate{
+            width: 49.5%;
+        }
+
+        .dash {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+        }
+
+        .circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #810c7b;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left h2 {
+            color: #0a0e0a;
+            margin: 0;
+        }
+
+        .header-left p {
+            color: red;
+            margin: 0;
+        }
+
+        .breadcrumb-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #todate{
+            width: 49.5%;
+        }
+
+        .close-icon {
+            position: relative;
+            float: right;
+            display: flex;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #555;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .close-icon:hover {
+            color: #333;
+        }
+
+        .flash-message {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .flash-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .flash-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+
+        @media (max-width: 1024px) {
+            .row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .col {
+                width: 100%;
+            }
+
+            .search-container {
+                flex-direction: row;
+                width: 70%;
+            }
+
+            .search-container input {
+                flex-grow: 1;
+                margin-bottom: 10px;
+            }
+
+            .dash {
+                display: inline-flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .save-button {
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .breadcrumb {
+                font-size: 12px;
+            }
+
+            .search-container {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                width: 80%;
+            }
+
+            .search-container input {
+                flex-grow: 1;
+                width: 100%;
+            }
+
+            .icon {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="close-icon" onclick="closeForm()">
+        <i class="fa-solid fa-times"></i>
+    </div>
+
+    <form method="POST" action="{{ url_for('leave_application') }}">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        {% if "welcome" not in message.lower() and "signup successful" not in message.lower() %}
+                            <div class="flash-message flash-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% endwith %}
+
+            <h1>Add Leave Application</h1>
+            <div class="breadcrumb-container">
+                <div class="breadcrumb">
+                    <span><a href="/dashboard" style="color: black; text-decoration: none;">> HR</a></span> > <span><a href="/leave" style="color: black; text-decoration: none;">Leave Application</a></span> <span><a href="/attendance" style="color: black; text-decoration: none;">> Add Leave Application</a>
+                </div>
+                <div class="search-container">
+                    <input type="text" placeholder="Search or type a command (Ctrl + G)">
+                    <i class="fa-solid fa-bell icon"></i>
+                    <option value="">Help</option>
+                        
+                    
+        
+                    <div class="dash">
+                        <div class="circle">
+                            {{ first_two_letters }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div class="header-container">
+                <div class="header-left">
+                    <h2><i class="fa-solid fa-bars"></i>&nbsp;&nbsp;New Leave Application
+                        {% if 'Attendance added successfully' not in get_flashed_messages()|join(', ') %}
+                            <mark style="background-color: #F5F5F5; border-radius: 10px; font-size: 15px; color: red;">&nbsp; Not Saved &nbsp;</mark>
+                        {% endif %}
+                    </h2>
+                </div>
+                <button type="submit" class="save-button">Save</button>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col">
+                    <label for="series">Series</label>
+                    <input type="text" id="series" name="series" required>
+                </div>
+                <div class="col">
+                    <label for="leaveType">Leave Type</label>
+                    <select id="leaveType" name="leaveType" required>
+                        <option value="">Select Leave Type</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="casual">Casual Leave</option>
+                        <option value="earned">Earned Leave</option>
+                        <option value="maternity">Maternity Leave</option>
+                        <option value="paternity">Paternity Leave</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <br>
+                    <label for="employee">Employee</label>
+                    <input type="text" id="employee" name="employee" placeholder="Enter Employee Name" required>
+                </div>
+                <div class="col">
+                    <br>
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+            </div>
+            <br>
+            <hr>
+            <br>
+
+            <div class="row">
+                <div class="col">
+                    <label for="date">From Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="col">
+                    <label for="reason">Reason</label>
+                    <input type="text" id="reason" name="reason" placeholder="Enter reason here" required>
+                </div>
+                
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <label for="date">To Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="col">
+                    <br><br>
+                    <input type="checkbox" id="half_day" name="half_day"> Half Day
+                </div>
+                
+            </div>
+            <br>
+            <hr><br>
+
+            <div class="row">
+                <div class="col">
+                    <label for="approval" style="color: black;">Approval</label>
+                    <label for="approval">Leave Approval</label>
+                    <input type="text" id="approval" name="approval" placeholder="">
+                </div>
+                <div class="col">
+                    <br>
+                    <label for=""></label>
+                    <label for="date">Posting Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <br><br>
+                    <input type="checkbox" id="late_entry" name="late_entry"> Follow Via Email
+                </div>
+                <div class="col">
+                    <br>
+                    <label for="status">Status</label>
+                    <select id="status" name="status" required>
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                    </select>
+                </div>
+            </div>
+            <br><hr><br>
+    
+            <option value="">Other Details</option>
+            <div class="row">
+                <div class="col">
+                    <br>
+                    <label for="salaryslip">Salary Slip</label>
+                    <input type="text" id="salaryslip" name="salaryslip" placeholder="" required>
+                </div>
+                <div class="col">
+                    <br>
+                    <label for="letterhead">Letter Head</label>
+                    <input type="text" id="letterhead" name="letterhead" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <br>
+                    <label for="colorPicker">Color</label>
+                    <input type="color" id="colorPicker" name="colorPicker" placeholder="Choose a Color" required>
+                </div>
+                
+            </div> 
+            
+            
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </form>
+
+    <script>
+        function closeForm() {
+            window.location.href = '/leave';
+        }
+    </script>
+</body>
+
+</html>

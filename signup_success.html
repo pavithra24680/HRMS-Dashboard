@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            background-image: linear-gradient(rgb(142, 142, 231), rgb(205, 229, 236));
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            margin: 100px auto;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #051405;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+            background-color: rgb(52, 64, 230);
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        a:hover {
+            background-color: rgb(13, 131, 241);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Signup Successful!</h1>
+        <a href="{{ url_for('login') }}">Go to Login</a>
+    </div>
+</body>
+</html>

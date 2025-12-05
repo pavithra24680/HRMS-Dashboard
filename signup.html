@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HRMS Portal</title>
+	<link rel="icon" type="image/x-icon" href="../static/—Pngtree—red wolf logo for game_5518165.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<style>
+		body {
+			font-family: Cambria, Cochin, Gserifeorgia, Times, 'Times New Roman',serif;
+			background-image: linear-gradient(rgb(142, 142, 231),rgb(205, 229, 236));
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+		}
+
+		h1 {
+			text-align: center;
+			font-size: 24px;
+		}
+
+		form {
+			width: 350px;
+			margin: 10px auto;
+			margin-top: 50px;
+			padding: 20px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+		label {
+			display: block;
+			margin-bottom: 2px;
+		}
+
+		input[type="text"], input[type="password"] {
+			width: 92%;
+			
+			margin-bottom: 10px;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		input[type="submit"] {
+			width: 100%;
+			height: 40px;
+			background-color: rgb(52, 64, 230);
+			color: #fff;
+			padding: 10px;
+			border: none;
+			border-radius: 15px;
+			cursor: pointer;
+			margin-top: 20px;
+		}
+
+		input[type="submit"]:hover {
+			background-color: rgb(13 131 241);
+		}
+
+		.hr-sect {
+			display: flex;
+			flex-basis: 100%;
+			align-items: center;
+			color: rgba(0, 0, 0, 0.35);
+			margin: 8px 0px;
+		}
+
+		.hr-sect:before,
+		.hr-sect:after {
+			content: "";
+			flex-grow: 1;
+			background: rgba(0, 0, 0, 0.35);
+			height: 1px;
+			font-size: 0px;
+			line-height: 0px;
+			margin: 0px 8px;
+		}
+
+		.ash {
+			height: 40px;
+			width: 40px;
+			display: inline-block;
+			align-items: center;
+			position: relative;
+			left: 130px;
+			padding: 12px;
+		}
+
+		@media screen and (max-width: 768px) {
+			form {
+				width: 90%;
+				margin-top: 20%;
+				padding: 15px;
+			}
+
+			input[type="text"], input[type="password"] {
+				width: 100%;
+				height: 25px;
+			}
+
+			.ash {
+				left: 0;
+				display: block;
+				margin: 0 auto;
+			}
+
+			h1 {
+				font-size: 22px;
+			}
+		}
+
+		@media screen and (max-width: 480px) {
+			form {
+				width: 90%;
+				margin-top: 20%;
+				padding: 15px;
+			}
+
+			input[type="text"], input[type="password"] {
+				width: 100%;
+				height: 25px;
+				font-size: 14px;
+			}
+
+			h1 {
+				font-size: 20px;
+			}
+
+			.ash {
+				left: 0;
+				display: block;
+				margin: 0 auto;
+			}
+
+			.hr-sect {
+				font-size: 12px;
+			}
+
+			.fa-facebook, .fa-google, .fa-github {
+				font-size: 20px;
+			}
+
+			.center i {
+				font-size: 18px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<form action="/signup" method="post">
+		<h1>Signup</h1>
+		<div style="position: relative; display: inline-block;">
+			<i class="fa fa-user" style="position: absolute; top: 13px; left: 10px; font-size: 15px; color: blue;"></i>
+			<input type="text" id="username" placeholder="Enter your Username" name="username" style="font-size: 15px; padding-left: 30px; padding-right: 58px;" required>
+		</div>
+		<br>
+
+		<div style="position: relative; display: inline-block;">
+			<i class="fa-solid fa-envelope" style="position: absolute; top: 13px; left: 10px; font-size: 15px; color: blue;"></i>
+			<input type="text" id="email" placeholder="Enter your Email" name="email" style="font-size: 15px; padding-left: 30px; padding-right: 58px;" required>
+		</div>
+		<br>
+
+		<div style="position: relative; display: inline-block;">
+			<i class="fa fa-lock" style="position: absolute; top: 13px; left: 10px; font-size: 15px; color: blue;"></i>
+			<input type="password" id="password" placeholder="Enter Your Password" name="password" style="font-size: 15px; padding-left: 30px; padding-right: 58px;" required>
+			<i class="fa fa-eye" id="togglePassword1" style="position: absolute; top: 15px; right: -60px; font-size: 15px; color: blue; cursor: pointer;"></i>
+		</div>
+		<br>
+
+		<div style="position: relative; display: inline-block;">
+			<i class="fa fa-lock" style="position: absolute; top: 13px; left: 10px; font-size: 15px; color: blue;"></i>
+			<input type="password" id="confirm_password" placeholder="Confirm Password" name="confirm_password" style="font-size: 15px; padding-left: 30px; padding-right: 58px;" required>
+			<i class="fa fa-eye" id="togglePassword2" style="position: absolute; top: 15px; right: -60px; font-size: 15px; color: blue; cursor: pointer;"></i>
+		</div>
+		<br>
+
+		<input type="submit" value="Signup" style="font-size: 20px;">
+		<h4 style="text-align: center;">Already have an account? <a href="{{ url_for('login') }}" style="text-decoration: none; color: rgb(13 131 241)">Login</a></h4>
+		<div class="hr-sect" style="color: black; margin-top: 10px;">or connect with</div>
+		<center><i class="fa-brands fa-facebook"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-brands fa-google"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-brands fa-github"></i></center>
+	</form>
+
+	<script>
+		// Toggle password visibility for password field
+		const togglePassword1 = document.getElementById('togglePassword1');
+		const password1 = document.getElementById('password');
+		togglePassword1.addEventListener('click', function () {
+			const type = password1.type === 'password' ? 'text' : 'password';
+			password1.type = type;
+			this.classList.toggle('fa-eye-slash');
+		});
+
+		// Toggle password visibility for confirm password field
+		const togglePassword2 = document.getElementById('togglePassword2');
+		const password2 = document.getElementById('confirm_password');
+		togglePassword2.addEventListener('click', function () {
+			const type = password2.type === 'password' ? 'text' : 'password';
+			password2.type = type;
+			this.classList.toggle('fa-eye-slash');
+		});
+	</script>
+</body>
+</html>
